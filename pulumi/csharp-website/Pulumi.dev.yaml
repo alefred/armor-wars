@@ -1,0 +1,4 @@
+config:
+  azure-native:location: eastus2
+  csharp-website:admin_pass:
+    secure: AAABAMQmwm5stmt0WOtL4wNKyC7bzOSoRnRsaVoQvrs7pT8688sFsZh50g==

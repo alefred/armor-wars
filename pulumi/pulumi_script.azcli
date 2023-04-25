@@ -27,4 +27,7 @@ pulumi stack rm dev
 pulumi stack select dev
 
 # Update configuration
+pulumi config
 pulumi config set azure-native:location eastus2
+pulumi config set csharp-website:user_login adminuser
+pulumi config set --secret admin_pass Password02$
