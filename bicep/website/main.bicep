@@ -2,11 +2,12 @@ targetScope = 'subscription'
 
 param location string = 'eastus2'
 param app_name string = 'iacwars'
+@secure()
+param admin_pass string
 var rg_name = 'rg-${app_name}-bicep-02'
 var webapp_name = 'app-${app_name}-bicep-01'
 var service_plan_name = 'asp-${app_name}-bicep-01'
 var admin_login = 'adminla'
-var admin_pass = 'Password01$'
 var db_name = 'db-${app_name}-bicep-01'
 var db_server_name = 'srv-${db_name}'
 

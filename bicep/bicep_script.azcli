@@ -18,7 +18,8 @@ az deployment sub create \
 az deployment sub create \
     --name 'demo-sub-02' \
     --location eastus2 \
-    --template-file main.bicep 
+    --template-file main.bicep \
+    --parameters admin_pass=Password03$
 
 #? delete deploymernt resources subscription
 subId=$(az account show --query id -o tsv)

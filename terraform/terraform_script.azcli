@@ -8,8 +8,9 @@ az login --use-device-code
 # Terraform execution   
 terraform init
 terraform validate
-terraform plan
-terraform destroy -auto-approve
+terraform plan -var admin_pass="Password02$"
+terraform apply -var admin_pass="Password02$"
+terraform destroy  -var admin_pass="Password02$" -auto-approve
 
 # Utils
 terraform fmt -recursive
