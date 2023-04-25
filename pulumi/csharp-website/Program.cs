@@ -41,11 +41,6 @@ return await Pulumi.Deployment.RunAsync(() =>
             Tier = "GeneralPurpose",
         },
     });
-    // Export the primary key of the Storage Account
-    // return new Dictionary<string, object?>
-    // {
-    //     ["fqdn"] = base_dbserver.FullyQualifiedDomainName
-    // };
 
     var base_db = new AzureNative.DBforMySQL.Database("base_db", new()
     {
@@ -79,9 +74,16 @@ return await Pulumi.Deployment.RunAsync(() =>
         },
     });
 
-    var appSettings = new InputList<NameValuePairArgs>
+    var mysql_connection = Output.Format($"Database={db_name};Data Source={base_dbserver.FullyQualifiedDomainName};User Id={admin_login}@{base_dbserver.Name};Password={admin_pass}");
+
+    var connectionStrings = new InputList<ConnStringInfoArgs>
     {
-        new NameValuePairArgs { Name = "ConnectionString", Value = $"Database={db_name};Data Source={base_dbserver.FullyQualifiedDomainName};User Id={admin_login}@{base_dbserver.Name};Password={admin_pass}" }
+        new ConnStringInfoArgs
+        {
+            Name = "connectionstrings",
+            ConnectionString = mysql_connection,
+            Type = ConnectionStringType.MySql,
+        }
     };
 
     var base_webapp = new WebApp("base_webapp", new WebAppArgs
@@ -91,8 +93,15 @@ return await Pulumi.Deployment.RunAsync(() =>
         ServerFarmId = base_sp.Id,
         SiteConfig = new SiteConfigArgs
         {
-            AppSettings = appSettings
+            ConnectionStrings = connectionStrings
         }
     });
+
+    // Outpput FQDN
+    return new Dictionary<string, object?>
+    {
+        ["fqdn"] = base_dbserver.FullyQualifiedDomainName,
+        ["connectionString"] = mysql_connection
+    };
 
 });
