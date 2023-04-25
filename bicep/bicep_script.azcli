@@ -1,13 +1,28 @@
 az login --use-device-code
-az bicep install #not required
+az bicep version
 az bicep upgrade
 
 #> demo-1
-#TODO: deployment subscription scope
-az deployment sub create \
-    --name 'demoevent1-sub' \
+#TODO: deployment subscription scope -- Validation and
+az deployment sub what-if \
+    --name 'demo-sub-01' \
     --location eastus2 \
-    --template-file demo-1/deploysub.bicep
+    --template-file main.bicep
+
+az deployment sub create \
+    --name 'demo-sub-01' \
+    --location eastus2 \
+    --template-file main.bicep
+
+#TODO: Modules
+az deployment sub what-if \
+    --name 'demo-sub-02' \
+    --location eastus2 \
+    --template-file main.bicep 
+
+
+
+
 
 #TODO: deployment group scope
 az deployment group create \
@@ -20,11 +35,6 @@ az deployment group create \
 az bicep build --file demo-1/deploygroup.bicep
 az bicep build --file demo-2/main.bicep
 
-#TODO:  what-if / troubleshoot net-module / create
-az deployment sub what-if \
-    --name 'demoevent2' \
-    --location eastus2 \
-    --template-file demo-2/main.bicep 
 
 #> demo-3
 #TODO: size bicep vs ARM / dependencies

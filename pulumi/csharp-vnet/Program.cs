@@ -6,8 +6,8 @@ using System.Collections.Generic;
 return await Pulumi.Deployment.RunAsync(() =>
 {
     // Naming Variables
-    string rg_name = "rg_pulumi_csharp";
-    string vnet_name = "vnet_spoke_pulumi";
+    string rg_name = "rg-pulumi-csharp-01";
+    string vnet_name = "vnet-spoke-pulumi-01";
     // Create an Azure Resource Group
     var resourceGroup = new ResourceGroup(rg_name);
 
