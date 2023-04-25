@@ -1,0 +1,30 @@
+##* PULUMI SITE: https://app.pulumi.com/alefred/pulumi-python-vnet/dev
+# Require installed npm
+###* Pulumi Token:
+# pul-0a179042a993726e9171464e2d34b98bc3e3e522
+mkdir <lang>-vnet
+cd <lang>-vnet
+# csharp requeriment
+dotnet --list-sdks
+dotnet --list-runtimes
+sudo apt-get update && \
+    sudo apt-get install -y dotnet-sdk-7.0
+sudo apt-get update && \
+  sudo apt-get install -y aspnetcore-runtime-7.0
+dotnet build
+
+##** PULUMI OPERATION
+pulumi version
+#  Could be pulumi new azure-typescript / 
+pulumi new azure-csharp --force
+# pulumi new azure-python
+pulumi up
+pulumi destroy
+# delete the stack completely
+pulumi stack init
+pulumi stack ls
+pulumi stack rm dev
+pulumi stack select dev
+
+# Update configuration
+pulumi config set azure-native:location eastus2

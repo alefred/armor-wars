@@ -1,0 +1,69 @@
+az login --use-device-code
+az bicep install #not required
+az bicep upgrade
+
+#> demo-1
+#TODO: deployment subscription scope
+az deployment sub create \
+    --name 'demoevent1-sub' \
+    --location eastus2 \
+    --template-file demo-1/deploysub.bicep
+
+#TODO: deployment group scope
+az deployment group create \
+    --name 'demoevent1-group' \
+    --resource-group rg-bicep-01 \
+    --template-file demo-1/deploygroup.bicep
+
+#> demo-2
+#TODO: from bicep to ARM template
+az bicep build --file demo-1/deploygroup.bicep
+az bicep build --file demo-2/main.bicep
+
+#TODO:  what-if / troubleshoot net-module / create
+az deployment sub what-if \
+    --name 'demoevent2' \
+    --location eastus2 \
+    --template-file demo-2/main.bicep 
+
+#> demo-3
+#TODO: size bicep vs ARM / dependencies
+az bicep build --file demo-3/blueprintDemo.bicep
+#TODO: from Azure Portal to Bicep
+az bicep decompile --file demo-3/fromAzurePortal.json
+
+#TODO: validate inputs deployment - administratorLoginPassword
+az deployment group create \
+    --name 'demoevent3' \
+    --resource-group rg-bicep-03 \
+    --template-file demo-3/blueprintDemo.bicep \
+    --parameters siteName='eventSite01' \
+        administratorLogin='adminBicep' \
+        administratorLoginPassword='Pa$$w0rd01'
+
+#> demo-4
+az bicep build --file demo-4/main.bicep
+#TODO: Modules and Clases Estructure / Arrays / String Operation / Operators / reautenticate if its required 
+az deployment sub create \
+    --name 'demoevent4' \
+    --location eastus2 \
+    --template-file demo-4/main.bicep \
+    --parameters projectName='eventDemo1' \
+        vmUser='eventUser' \
+        vmPassword='eventPassword01' 
+
+# Recommendations and Best Practices:
+- https://github.com/Azure/bicep
+- https://docs.microsoft.com/en-us/azure/azure-resource-manager/bicep/best-practices
+
+#troubleshoot
+az deployment sub list --filter "name eq '{main}'"
+
+#? delete deploymernt resources subscription
+subId=$(az account show --query id -o tsv)
+resourcelist=$(az deployment sub show --subscription $subId --name 'demoevent4' --query "properties.outputResources[].id" -o tsv)
+for resource in $resourcelist; do az resource delete --ids $resource; done
+
+#? delete deployment resources
+resourcelist=$(az deployment group  show --resource-group 'rg-bicep-04' --name 'vnetd' --query "properties.outputResources[].id" -o tsv)
+for resource in $resourcelist; do az resource delete --ids $resource; done
