@@ -17,7 +17,7 @@ module "service_plan" {
 module "mysql_db" {
   source                     = "./azurerm_mysql_server"
   administratorLogin         = local.admin_login
-  administratorLoginPassword = local.admin_pass
+  administratorLoginPassword = var.admin_pass
   databaseName               = local.db_name
   serverName                 = local.db_server_name
   resource_group_name        = azurerm_resource_group.rg.name
@@ -31,7 +31,7 @@ module "web_app" {
   service_plan_id                = module.service_plan.service_plan_id
   webapp_name                    = local.webapp_name
   administratorLogin             = local.admin_login
-  administratorLoginPassword     = local.admin_pass
+  administratorLoginPassword     = var.admin_pass
   serverfullyQualifiedDomainName = module.mysql_db.fqdn
   serverName                     = local.db_server_name
   databaseName                   = local.db_name
