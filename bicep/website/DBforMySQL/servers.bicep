@@ -1,4 +1,3 @@
-param siteName string
 param administratorLogin string
 param databaseSkucapacity int = 2
 param databaseSkuName string = 'GP_Gen5_2'
@@ -7,44 +6,11 @@ param databaseSkuTier string = 'GeneralPurpose'
 param mySqlVersion string = '8.0'
 param location string = resourceGroup().location
 param databaseSkuFamily string = 'Gen5'
-
+param serverName string
+param databaseName string
 @secure()
 param administratorLoginPassword string
 
-var databaseName = '${siteName}-database'
-var serverName = '${siteName}-server'
-var hostingPlanName = '${siteName}-serviceplan'
-
-resource hostingPlan 'Microsoft.Web/serverfarms@2020-06-01' = {
-  name: hostingPlanName
-  location: location
-  properties: {
-    reserved: true
-  }
-  sku: {
-    tier: 'Standard'
-    name: 'S1'
-  }
-}
-
-resource website 'Microsoft.Web/sites@2020-06-01' = {
-  name: siteName
-  location: location
-  properties: {
-    serverFarmId: hostingPlan.id
-  }
-}
-
-resource connectionString 'Microsoft.Web/sites/config@2020-06-01' = {
-  parent: website
-  name: 'connectionstrings'
-  properties: {
-    defaultConnection: {
-      value: 'Database=${databaseName};Data Source=${server.properties.fullyQualifiedDomainName};User Id=${administratorLogin}@${serverName};Password=${administratorLoginPassword}'
-      type: 'MySql'
-    }
-  }
-}
 
 resource server 'Microsoft.DBforMySQL/servers@2017-12-01' = {
   location: location
@@ -90,3 +56,5 @@ resource database 'Microsoft.DBforMySQL/servers/databases@2017-12-01' = {
     collation: 'utf8_general_ci'
   }
 }
+
+output fqdn string = server.properties.fullyQualifiedDomainName
