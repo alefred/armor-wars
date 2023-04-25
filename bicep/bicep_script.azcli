@@ -15,7 +15,7 @@ az deployment sub create \
     --template-file main.bicep
 
 #TODO: Modules
-az deployment sub what-if \
+az deployment sub create \
     --name 'demo-sub-02' \
     --location eastus2 \
     --template-file main.bicep 
