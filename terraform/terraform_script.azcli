@@ -11,6 +11,9 @@ terraform validate
 terraform plan
 terraform destroy -auto-approve
 
+# Utils
+terraform fmt -recursive
+
 # manage state
 terraform state list
 terraform state show #<completeName>

@@ -20,6 +20,10 @@ az deployment sub create \
     --location eastus2 \
     --template-file main.bicep 
 
+#? delete deploymernt resources subscription
+subId=$(az account show --query id -o tsv)
+resourcelist=$(az deployment sub show --subscription $subId --name 'demo-sub-02' --query "properties.outputResources[].id" -o tsv)
+for resource in $resourcelist; do az resource delete --ids $resource; done
 
 
 
