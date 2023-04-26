@@ -28,3 +28,13 @@ terraform state show #<completeName>
 terraform plan -var-file dev.tfvars -out try01.tfplan
 # Destroy 
 terraform destroy -var-file dev.tfvars -auto-approve
+
+
+# Aztfy | Aztfexport |> https://github.com/Azure/aztfexport
+curl -sSL https://packages.microsoft.com/keys/microsoft.asc > /etc/apt/trusted.gpg.d/microsoft.asc
+ver=20.04 # or 22.04
+apt-add-repository https://packages.microsoft.com/ubuntu/${ver}/prod
+apt-get install aztfexport
+
+
+
