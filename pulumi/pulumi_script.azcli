@@ -16,7 +16,7 @@ dotnet build
 ##** PULUMI OPERATION
 pulumi version
 #  Could be pulumi new azure-typescript / 
-pulumi new azure-csharp --force
+pulumi new azure-csharp #--force
 # pulumi new azure-python
 pulumi up
 pulumi destroy
