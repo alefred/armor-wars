@@ -36,5 +36,6 @@ ver=20.04 # or 22.04
 apt-add-repository https://packages.microsoft.com/ubuntu/${ver}/prod
 apt-get install aztfexport
 
+aztfexport resource /subscriptions/2e938920-f24d-4959-9525-cb643d1beac1/resourceGroups/rg-data-core-ci-01/providers/Microsoft.Storage/storageAccounts/stcoreci02
 
 
